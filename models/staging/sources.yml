@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    dataset: raw
+    tables:
+      - name: glamira_user_event
+      - name: ip_locations
+      - name: products_info
