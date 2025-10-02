@@ -23,3 +23,10 @@ models:
     marts:
       +materialized: table  
       +schema: marts
+      dim_calendar:
+        +materialized: table
+
+quoting:
+  database: true
+  schema: true
+  identifier: true
