@@ -2,18 +2,50 @@
 version: 2
 
 models:
-    - name: my_first_dbt_model
-      description: "A starter dbt model"
+    - name: stg_dim_location
+      description: "Staging location dimensions"
       columns:
-          - name: id
-            description: "The primary key for this table"
-            tests:
-                - unique
+          - name: location_key
+            description: "Hashing country&region&city to implement location primary key"
+          - name: country
+            description: "Country name"
+          - name: region
+            description: "Region name"
+          - name: city
+            description: "City name"
+          - name: ip
+            description: "Keep ip field to replace ip in fact tables"
+          
+    - name: stg_dim_user
+      description: "User informations"
+      columns:
+          - name: user_pk
+            description: "User ID - Primary key"
+          - name: user_email
+            description: "User email address"
 
-    - name: my_second_dbt_model
-      description: "A starter dbt model"
+    - name: stg_dim_device
+      description: "User device information"
       columns:
-          - name: id
-            description: "The primary key for this table"
-            tests:
-                - unique
+          - name: device_id
+            description: "Device ID - Primary key"
+          - name: resolution
+            description: "Device resolution"
+          - name: operating_system
+            description: "Operating System name"
+          - name: device_name
+            description: "Device name"
+        
+    - name: stg_exchange_rate
+      description: "Local currency to USD exchange rate"
+      columns:
+          - name: currency_key
+            description: "Currency exchange - Primary key"
+          - name: currency_symbol
+            description: "Currency symbol"
+          - name: currency_code
+            description: "Currency code, 3 characters"
+          - name: currency_name
+            description: "Currency name"
+          - name: exchange_rate
+            description: "Exchange rate in float64"

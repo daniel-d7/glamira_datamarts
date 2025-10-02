@@ -4,6 +4,7 @@ sources:
   - name: raw
     dataset: raw
     tables:
-      - name: glamira_user_event
+      - name: glamira_user_event_raw_logs
       - name: ip_locations
       - name: products_info
+      - name: exchange_rate
