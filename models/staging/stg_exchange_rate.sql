@@ -1,6 +1,9 @@
-with 
+-- models/marts/dim_exchange_rate.sql
+{{ config(
+    materialized='table'
+) }}
 
-source as (
+with source as (
     select
         *
     from {{ source('raw', 'exchange_rate') }}

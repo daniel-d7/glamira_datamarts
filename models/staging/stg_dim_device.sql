@@ -1,8 +1,19 @@
-with 
+-- models/marts/stg_dim_device.sql
+{{ config(
+    materialized='table'
+) }}
+
+with source as (
+    select
+        *
+    from {{ source('raw', 'glamira_user_event_raw_logs') }}
+    where device_id != ''
+        and device_id is not null
+),
 
 parsed_user_agents as (
   select
-    device_id,
+    device_id as device_key,
 
     resolution,
 
@@ -26,9 +37,7 @@ parsed_user_agents as (
       else 'Unknown Device'
     end as device_name
 
-  from {{ source('raw', 'glamira_user_event_raw_logs') }}
-    where device_id != ''
-        and device_id is not null
+  from source
 )
 
 select * from parsed_user_agents

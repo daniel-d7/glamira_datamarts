@@ -1,6 +1,9 @@
-with 
+-- models/marts/stg_dim_user.sql
+{{ config(
+    materialized='table'
+) }}
 
-source as (
+with source as (
     select
         *
     from {{ source('raw', 'glamira_user_event_raw_logs') }}

@@ -1,7 +1,7 @@
 -- models/marts/dim_calendar.sql
 {{ config(
     materialized='table',
-    labels={'domain': 'calendar', 'layer': 'marts'}
+    unique_key='date_key'
 ) }}
 
 with date_range as (
