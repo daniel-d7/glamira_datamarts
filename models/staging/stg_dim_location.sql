@@ -1,6 +1,9 @@
-with 
+-- models/marts/stg_dim_location.sql
+{{ config(
+    materialized='table'
+) }}
 
-source as (
+with source as (
 
     select * from {{ source('raw', 'ip_locations') }}
 

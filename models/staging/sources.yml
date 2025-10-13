@@ -8,3 +8,4 @@ sources:
       - name: ip_locations
       - name: products_info
       - name: exchange_rate
+      - name: store_code_preference

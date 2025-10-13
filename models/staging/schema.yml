@@ -49,3 +49,27 @@ models:
             description: "Currency name"
           - name: exchange_rate
             description: "Exchange rate in float64"
+
+    - name: stg_dim_product
+      description: "Product dimensions"
+      columns:
+        - name: product_id,
+          description: ""
+        - name: product_name,
+          description: ""
+        - name: sku,
+          description: ""
+        - name: gender,
+          description: ""
+        - name: category_name,
+          description: ""
+        - name: collection_name,
+          description: ""
+        - name: category_name,
+          description: ""
+        - name: product_type,
+          description: ""
+        - name: gold_weight,
+          description: ""
+        - name: platinum_palladium_info_in_alloy
+          description: ""
