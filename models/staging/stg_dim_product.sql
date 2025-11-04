@@ -3,8 +3,8 @@
     materialized='table'
 ) }}
 
-with source as (
-    select
+WITH source AS (
+    SELECT
         s.product_id,
         s.name,
         s.sku,
@@ -16,40 +16,40 @@ with source as (
         s.product_type,
         s.gold_weight,
         s.platinum_palladium_info_in_alloy
-    from {{ source('raw', 'products_info') }} s
+    FROM {{ source('raw', 'products_info') }} s
 ),
 
-preference_order as (
-    select
+preference_order AS (
+    SELECT
         p.store_code,
         p.order
-    from {{ source('raw', 'store_code_preference')}} p
+    FROM {{ source('raw', 'store_code_preference')}} p
 ),
 
-raw_join as (
-    select
+raw_join AS (
+    SELECT
         s.*,
         p.order
-    from source s
-    left join preference_order p on s.store_code = p.store_code
+    FROM source s
+    LEFT JOIN preference_order p ON s.store_code = p.store_code
 )
 
-select distinct
-  r.product_id as product_key,
-  r.name as product_name,
+SELECT distinct
+  r.product_id AS product_key,
+  r.name AS product_name,
   r.sku,
   r.gender,
-  r.collection as collection_name,
-  r.category as category_name,
+  r.collection AS collection_name,
+  r.category AS category_name,
   r.product_type,
   r.gold_weight,
   r.platinum_palladium_info_in_alloy
-from raw_join r
-left join (
-  select
+FROM raw_join r
+LEFT JOIN (
+  SELECT
     rj.product_id,
-    min(rj.order) as min_order
-  from raw_join rj
-  group by 1
-) as j on r.product_id = j.product_id
-where r.order = j.min_order
+    min(rj.order) AS min_order
+  FROM raw_join rj
+  GROUP BY 1
+) AS j ON r.product_id = j.product_id
+WHERE r.order = j.min_order

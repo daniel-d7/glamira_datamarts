@@ -3,20 +3,26 @@
     materialized='table'
 ) }}
 
-with source as (
-    select
+WITH source AS (
+    SELECT
         *
-    from {{ source('raw', 'exchange_rate') }}
+    FROM {{ source('raw', 'exchange_rate') }}
 ),
 
-raw_exchange_rate as (
-    select
-        farm_fingerprint(symbol) as currency_key,
-        symbol as currency_symbol,
-        code as currency_code,
-        currency_name,
-        exchange_rate
-    from source
+raw_exchange_rate AS (
+    SELECT
+        farm_fingerprint(symbol) AS currency_pk
+        ,symbol AS currency_symbol
+        ,code AS currency_code
+        ,currency_name
+        ,exchange_rate
+    FROM source
 )
 
-select * from raw_exchange_rate
+SELECT
+    currency_pk
+    ,currency_symbol
+    ,currency_code
+    ,currency_name
+    ,exchange_rate
+FROM raw_exchange_rate

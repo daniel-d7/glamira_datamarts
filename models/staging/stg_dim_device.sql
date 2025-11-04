@@ -3,41 +3,35 @@
     materialized='table'
 ) }}
 
-with source as (
-    select
+WITH source AS (
+    SELECT
         *
-    from {{ source('raw', 'glamira_user_event_raw_logs') }}
-    where device_id != ''
-        and device_id is not null
+    FROM {{ source('raw', 'glamira_user_event_raw_logs') }}
+    WHERE device_id != ''
+        AND device_id IS NOT NULL
 ),
 
-parsed_user_agents as (
-  select
-    device_id as device_key,
-
-    resolution,
-
-    case 
-      when regexp_contains(user_agent, r'iPhone OS (\d+_\d+)') then 'iOS'
-      when regexp_contains(user_agent, r'Mac OS X (\d+[_\d]*)') then 'macOS'
-      when regexp_contains(user_agent, r'Android (\d+(?:\.\d+)*)') then 'Android'
-      when regexp_contains(user_agent, r'Windows NT (\d+\.\d+)') then 'Windows'
-      when regexp_contains(user_agent, r'Linux') then 'Linux'
-      else 'Unknown OS'
-    end as operating_system,
-
-    case 
-      when regexp_contains(user_agent, r'SAMSUNG ([^)]+)') then 
-        regexp_extract(user_agent, r'SAMSUNG ([^)]+)')
-      when regexp_contains(user_agent, r'iPhone') then 'iPhone'
-      when regexp_contains(user_agent, r'Redmi Note 8 Pro') then 'Redmi Note 8 Pro'
-      when regexp_contains(user_agent, r'Macintosh') then 'Mac'
-      when regexp_contains(user_agent, r'Linux; Android.*; ([^)]+)') then
-        regexp_extract(user_agent, r'Linux; Android.*; ([^)]+)')
-      else 'Unknown Device'
-    end as device_name
-
-  from source
+parsed_user_agents AS (
+  SELECT
+    device_id AS device_pk
+    ,resolution
+    ,CASE 
+      WHEN regexp_contains(user_agent, r'iPhone OS (\d+_\d+)') THEN 'iOS'
+      WHEN regexp_contains(user_agent, r'Mac OS X (\d+[_\d]*)') THEN 'macOS'
+      WHEN regexp_contains(user_agent, r'Android (\d+(?:\.\d+)*)') THEN 'Android'
+      WHEN regexp_contains(user_agent, r'Windows NT (\d+\.\d+)') THEN 'Windows'
+      WHEN regexp_contains(user_agent, r'Linux') THEN 'Linux'
+      ELSE 'Unknown OS'
+    END AS operating_system
+    ,CASE 
+      WHEN regexp_contains(user_agent, r'SAMSUNG ([^)]+)') THEN regexp_extract(user_agent, r'SAMSUNG ([^)]+)')
+      WHEN regexp_contains(user_agent, r'iPhone') THEN 'iPhone'
+      WHEN regexp_contains(user_agent, r'Redmi Note 8 Pro') THEN 'Redmi Note 8 Pro'
+      WHEN regexp_contains(user_agent, r'Macintosh') THEN 'Mac'
+      WHEN regexp_contains(user_agent, r'Linux; Android.*; ([^)]+)') THEN regexp_extract(user_agent, r'Linux; Android.*; ([^)]+)')
+      ELSE 'Unknown Device'
+    END AS device_name
+  FROM source
 )
 
-select * from parsed_user_agents
+SELECT * FROM parsed_user_agents

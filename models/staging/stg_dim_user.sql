@@ -3,20 +3,19 @@
     materialized='table'
 ) }}
 
-with source as (
-    select
+WITH source AS (
+    SELECT
         *
-    from {{ source('raw', 'glamira_user_event_raw_logs') }}
-    where collection = 'checkout_success'
-        and user_id_db != ''
-        and user_id_db is not null
+    FROM {{ source('raw', 'glamira_user_event_raw_logs') }}
+    WHERE user_id_db != ''
+        AND user_id_db IS NOT NULL
 ),
 
-raw_user as (
-    select
-        user_id_db as user_pk,
-        email_address as user_email
-    from source
+raw_user AS (
+    SELECT
+        user_id_db AS user_pk,
+        email_address AS user_email
+    FROM source
 )
 
-select * from raw_user
+SELECT * FROM raw_user

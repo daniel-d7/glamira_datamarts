@@ -45,3 +45,51 @@ models:
         description: "Boolean flag for weekday"
         tests:
           - not_null
+
+  - name: dim_location
+    description: "User location based on IP address"
+    columns:
+      - name: location_pk
+        description: "Primary key"
+        tests:
+          - not_null
+          - unique
+      
+      - name: country_code
+        description: "Country code with 3 letters, capitalized"
+        tests:
+          - not_null
+
+      - name: region_name
+        description: "Full region names"
+        tests:
+          - not_null
+
+      - name: city_name
+        description: "Full city names"
+        tests:
+          - not_null
+
+  - name: dim_device
+    description: "User device informations"
+    columns:
+      - name: device_pk
+        description: "Primary key"
+        tests:
+          - not_null
+          - unique
+      
+      - name: resolution
+        description: "User device resolution"
+        tests:
+          - not_null
+
+      - name: operating_system
+        description: "Device's running operating system"
+        tests:
+          - not_null
+
+      - name: device_name
+        description: "Device name"
+        tests:
+          - not_null
