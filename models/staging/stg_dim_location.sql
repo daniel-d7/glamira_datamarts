@@ -3,23 +3,18 @@
     materialized='table'
 ) }}
 
-with source as (
-
-    select * from {{ source('raw', 'ip_locations') }}
-
+WITH source AS (
+    SELECT * FROM {{ source('raw', 'ip_locations') }}
 ),
 
-raw_location as (
-
-    select
-        farm_fingerprint(concat(country, region, city)) as location_key,
-        country as country_code,
-        region as region_name,
-        city as city_name,
-        ip as ip_address
-
-    from source
-
+raw_location AS (
+    SELECT
+        farm_fingerprint(concat(country, region, city)) AS location_pk
+        ,country AS country_code
+        ,region AS region_name
+        ,city AS city_name
+        ,ip AS ip_address
+    FROM source
 )
 
-select * from raw_location
+SELECT * FROM raw_location

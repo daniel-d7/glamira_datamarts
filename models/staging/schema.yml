@@ -39,7 +39,7 @@ models:
     - name: stg_exchange_rate
       description: "Local currency to USD exchange rate"
       columns:
-          - name: currency_key
+          - name: currency_pk
             description: "Currency exchange - Primary key"
           - name: currency_symbol
             description: "Currency symbol"
